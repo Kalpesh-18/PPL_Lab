@@ -1,0 +1,50 @@
+---------
+A-3 Loops
+---------
+
+OUTPUT CFG FILE
+----------------
+int main()                             |
+{                                      |;; Function main (main, funcdef_no=0, d
+        int sum = 0;                   |ecl_uid=1910, cgraph_uid=1, symbol_orde
+        int i, j;                      |r=0)
+                                       |
+        while(sum < 100) {             |;; 4 loops found
+                sum = sum * 2;         |;;
+        }                              |;; Loop 0
+                                       |;;  header 0, latch 1
+        for(i=0; i<25; i++) {          |;;  depth 0, outer -1
+                for(j=0; j<50; j++) {  |;;  nodes: 0 1 2 3 4 5 6 7 8 9 10 11 12
+                        sum = sum + i*j|;;
+;                                      |;; Loop 2
+                }                      |;;  header 10, latch 9
+        }                              |;;  depth 1, outer 0
+}                                      |;;  nodes: 10 9 8 6 7
+                                       |;;
+~                                      |;; Loop 3
+~                                      |;;  header 8, latch 7
+~                                      |;;  depth 2, outer 2
+~                                      |;;  nodes: 8 7
+~                                      |;;
+~                                      |;; Loop 1
+~                                      |;;  header 4, latch 3
+~                                      |;;  depth 1, outer 0
+~                                      |;;  nodes: 4 3
+~                                      |;; 2 succs { 4 }
+A-3.c                                   A-3.c.012t.cfg                         
+
+
+~                                      |    goto <bb 4>; [INV]
+
+
+Answers
+-------
+        1  Basic blocks 2, 3, 4 are for the while-loop. A while loop
+            is nothing but a set of basic blocks with conditional control
+            transfer, the only  notable difference being a jump to a block 		    that has been previously executed (i.e. a backward branch) 	      which is not possible in if-else loop.
+            In if-else the the if block is executed if the condition is 		    valid otherwise the else block is executed
+            without any passing condition.
+
+        2  A for-loop is nothing but a while-loop with the initializer
+            separated out into an initial basic block, the body of the loop
+            subsequently, the increment part at the end of the loop body, 	         and the conditional jump back to the start of the loop. 

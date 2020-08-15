@@ -1,0 +1,74 @@
+---------------------------------------------
+A-2 Conditional Jumps and Control Flow Graphs
+---------------------------------------------
+OUTPUT GIMPLE FILE
+------------------
+
+int Z;                                 |f ()
+                                       |{
+void f()                               |  int a;
+{                                      |  int b;
+        int a, b, c;                   |  int c;
+        a = Z;                         |
+        if (a < 10) {                  |  a = Z;
+                b = 5;                 |  if (a <= 9) goto <D.1917>; else goto
+                c = 17;                |<D.1918>;
+        } else {                       |  <D.1917>:
+                b = 6;                 |  b = 5;
+                c = 20;                |  c = 17;
+                if (a == 0) {          |  goto <D.1919>;
+                        c = 0;         |  <D.1918>:
+                }                      |  b = 6;
+        }                              |  c = 20;
+        Z = b * 10 + c;                |  if (a == 0) goto <D.1920>; else goto
+}                                      |<D.1921>;
+                                       |  <D.1920>:
+~                                      |  c = 0;
+~                                      |  <D.1921>:
+~                                      |  <D.1919>:
+~                                      |  _1 = b * 10;
+~                                      |  _2 = c + _1;
+~                                      |  Z = _2;
+~                                      |}
+~                                      |
+A-2.c                                   A-2.c.005t.gimple                      
+Type  :qa  and press <Enter> to exit Vim
+
+
+Answer - 
+1) The if-block is translated as if the condition satisfies then goto a particular set of expressions and execute them
+   but the represention of the if block in gimple file is not quite easy to understand and as of now I am not able to
+   differentiate between the conditional and non conditional goto as it is denoted by some type of id
+   like <D.1919>
+
+2) Yes the representation was a bit easier to understand as it showed the nodes, loops in a more detailed manner
+OUTPUT CFG FILE
+---------------
+int Z;                                 |
+                                       |;; Function f (f, funcdef_no=0, decl_ui
+void f()                               |d=1911, cgraph_uid=1, symbol_order=1)
+{                                      |
+        int a, b, c;                   |;; 1 loops found
+        a = Z;                         |;;
+        if (a < 10) {                  |;; Loop 0
+                b = 5;                 |;;  header 0, latch 1
+                c = 17;                |;;  depth 0, outer -1
+        } else {                       |;;  nodes: 0 1 2 3 4 5 6
+                b = 6;                 |;; 2 succs { 3 4 }
+                c = 20;                |;; 3 succs { 6 }
+                if (a == 0) {          |;; 4 succs { 5 6 }
+                        c = 0;         |;; 5 succs { 6 }
+                }                      |;; 6 succs { 1 }
+        }                              |f ()
+        Z = b * 10 + c;                |{
+}                                      |  int c;
+                                       |  int b;
+~                                      |  int a;
+~                                      |
+~                                      |  <bb 2> :
+~                                      |  a = Z;
+~                                      |  if (a <= 9)
+~                                      |    goto <bb 3>; [INV]
+~                                      |  else
+~                                      |    goto <bb 4>; [INV]
+         
