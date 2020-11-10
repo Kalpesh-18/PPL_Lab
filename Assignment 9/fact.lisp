@@ -1,7 +1,7 @@
 ;defining a function for calculating factorial
 (defun factorial (n)
     (if (= n 0)
-        1   ;recursion breaking condition
+        1   ;If n is zero then assign 1
         (* n (factorial (- n 1)))   ;recursion
     ) 
 )
