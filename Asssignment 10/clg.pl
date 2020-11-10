@@ -21,16 +21,16 @@ has_subject(comp_dept,plevh).
 has_subject(comp_dept,ic).
 has_subject(comp_dept,fcs).
  
-has_student(comp_dept,chitrang_bhoir).
-has_student(comp_dept,atharv_terwadkar).
-has_student(comp_dept,ghansham_salunkhe).
-has_student(comp_dept,kartik_mandhan).
+has_student(comp_dept,kalpesh_ahire).
+has_student(comp_dept,harish_choudhary).
+has_student(comp_dept,kunal).
+has_student(comp_dept,kunal_more).
 has_student(comp_dept,mudit_bapna).
-has_student(comp_dept,ritik_naik).
-has_student(comp_dept,chetan_bhause).
-has_student(comp_dept,sagar_patil).
-has_student(comp_dept,sagar_mali).
-has_student(comp_dept,abhishek_dharmadhikari).
+has_student(comp_dept,kunal_dhake).
+has_student(comp_dept,piyush_hule).
+has_student(comp_dept,sagar_sonawane).
+has_student(comp_dept,mahesh_tone).
+has_student(comp_dept,abhishek_gaikwad).
 
 has_faculty(DEPARTMENT,FACULTY) :- teaches_subject(FACULTY,SUBJECT) , has_subject(DEPARTMENT,SUBJECT).
 studies_subject(STUDENT,SUBJECT) :- has_student(DEPARTMENT,STUDENT) , has_subject(DEPARTMENT,SUBJECT).
